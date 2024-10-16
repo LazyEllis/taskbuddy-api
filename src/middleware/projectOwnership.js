@@ -1,10 +1,9 @@
-const prisma = require("../prisma/client");
+const prisma = require("../config/database");
 
-// Middleware to check for project ownership
 const checkProjectOwnership = async (req, res, next) => {
   try {
     const projectId = parseInt(req.params.projectId);
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     const project = await prisma.project.findFirst({
       where: {
@@ -21,8 +20,7 @@ const checkProjectOwnership = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.error("Error checking project ownership:", error);
-    res.status(500).json({ error: "Internal server error" });
+    next(error);
   }
 };
 
