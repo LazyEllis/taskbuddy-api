@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@prisma/client": "^5.21.0",
     "bcryptjs": "^2.4.3",
