@@ -7,18 +7,35 @@ const {
   setTaskComplete,
   setTaskIncomplete,
 } = require("../controllers/taskController");
+const {
+  createTaskValidator,
+  updateTaskValidator,
+  deleteTaskValidator,
+  setTaskCompleteValidator,
+} = require("../validators/taskValidators");
 const authenticateToken = require("../middleware/auth");
 const checkProjectOwnership = require("../middleware/projectOwnership");
+const validate = require("../middleware/validate");
 const router = express.Router({ mergeParams: true });
 
 router.use(authenticateToken);
 router.use(checkProjectOwnership);
 
 router.get("/", getAllTasks);
-router.post("/", createTask);
-router.put("/:taskId", updateTask);
-router.delete("/:taskId", deleteTask);
-router.put("/:taskId/complete", setTaskComplete);
-router.delete("/:taskId/complete", setTaskIncomplete);
+router.post("/", createTaskValidator, validate, createTask);
+router.put("/:taskId", updateTaskValidator, validate, updateTask);
+router.delete("/:taskId", deleteTaskValidator, validate, deleteTask);
+router.put(
+  "/:taskId/complete",
+  setTaskCompleteValidator,
+  validate,
+  setTaskComplete
+);
+router.delete(
+  "/:taskId/complete",
+  setTaskCompleteValidator,
+  validate,
+  setTaskIncomplete
+);
 
 module.exports = router;

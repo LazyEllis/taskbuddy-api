@@ -16,6 +16,9 @@ exports.register = async (req, res, next) => {
     });
     res.json({ message: "User registered successfully", userId: user.id });
   } catch (error) {
+    if (error.code === "P2002") {
+      return res.status(409).json({ error: "Username already exists" });
+    }
     next(error);
   }
 };
